@@ -5,39 +5,39 @@ import PropTypes from 'prop-types';
 //local components
 import Location from './Location';
 import WeatherData from './WeatherData';
-import * as States from '../../Constants/WeatherStates';
+import * as WeatherAPIServices from '../../Services/WeatherAPIServices';
 
 //styles
 import './styles.css';
-
-const data = {
-    temperature: 27,
-    weatherState: States.DRIZZLE,
-    humidity: 40,
-    wind: 20,
-};
-
-const data2 = {
-    temperature: 15,
-    weatherState: States.CLOUD,
-    humidity: 10,
-    wind: 50,
-};
 
 class WeatherLocation extends Component {
     
     constructor(){
         super();
         this.state = {
-            city: 'Ecatepec',
-            data,
+            city: 'Zapopan,mx',
+            data: null,
         };
     }
 
+    componentDidMount(){
+        this.handleUpdateClick();
+
+    }
+
+    componentDidUpdate(){
+        console.log('componentDidUpdate');
+    }
+
     handleUpdateClick = () =>{
-        this.setState({
-            city: 'Zapopan',
-            data: data2,
+        const city = 'Sidney,au';
+        fetch(WeatherAPIServices.getUrlWeatherByCity(city)).then(resolve => {
+            return resolve.json();
+        }).then(data => {
+            this.setState({
+                city,
+                data: WeatherAPIServices.transformWeatherData(data),
+            });
         });
     }
     
@@ -46,7 +46,11 @@ class WeatherLocation extends Component {
 
         return (<div className='weatherLocationContainer'>
                     <Location city={city}/>
-                    <WeatherData data={data}/>
+                    { data ? 
+                        <WeatherData data={data}/> :
+                        "Loading..."
+                    }
+                    
                     <button onClick={this.handleUpdateClick}>Update</button>
                </div>);
     }
