@@ -23,15 +23,10 @@ class WeatherLocation extends Component {
 
     componentDidMount(){
         this.handleUpdateClick();
-
-    }
-
-    componentDidUpdate(){
-        console.log('componentDidUpdate');
     }
 
     handleUpdateClick = () =>{
-        const city = 'Sidney,au';
+        const {city} = this.props;
         fetch(WeatherAPIServices.getUrlWeatherByCity(city)).then(resolve => {
             return resolve.json();
         }).then(data => {
