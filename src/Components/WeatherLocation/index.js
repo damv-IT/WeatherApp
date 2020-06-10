@@ -1,6 +1,7 @@
 //external
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 //local components
 import Location from './Location';
@@ -48,10 +49,8 @@ class WeatherLocation extends Component {
                     <Location city={city}/>
                     { data ? 
                         <WeatherData data={data}/> :
-                        "Loading..."
+                        <CircularProgress size={50}/>
                     }
-                    
-                    <button onClick={this.handleUpdateClick}>Update</button>
                </div>);
     }
 }
