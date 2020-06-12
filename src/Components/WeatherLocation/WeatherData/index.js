@@ -4,14 +4,7 @@ import WeatherTemperature from './WeatherTemperature';
 import WeatherExtraInfo from './WeatherExtraInfo';
 
 import './styles.css';
-/*
-    data={
-        temperatura,
-        weatherState,
-        humidity,
-        wind
-    }
-*/ 
+
 const WeatherData = ({data: {temperature, weatherState, humidity, wind}}) => (
     <div className="weatherDataContainer">
         <WeatherTemperature temperature={temperature} weatherState={weatherState}/>
