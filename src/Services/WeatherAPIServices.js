@@ -33,7 +33,7 @@ export const transformWeatherData = apiWeatherData => {
     const weatherState = getWeatherState(apiWeatherData.weather[0]);
 
     const convertedData = {
-        temperature: temp,
+        temperature: temp.toFixed(0),
         weatherState,
         wind: speed,
         humidity,
