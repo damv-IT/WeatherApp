@@ -1,4 +1,6 @@
-import {api_key, url_base_weather} from '../Constants/api_url';
+import moment from 'moment';
+
+import {api_key, url_base_weather, url_base_forecast} from '../Constants/api_url';
 import * as States from '../Constants/WeatherStates';
 
 const getWeatherState = weather => {
@@ -27,6 +29,10 @@ export const getUrlWeatherByCity = city => {
     return `${url_base_weather}?q=${city}&appid=${api_key}&units=metric`;
 };
 
+export const getUrlForecastByCity = city => {
+    return `${url_base_forecast}?q=${city}&appid=${api_key}&units=metric`;
+};
+
 export const transformWeatherData = apiWeatherData => {
     const {temp, humidity} = apiWeatherData.main;
     const {speed} = apiWeatherData.wind;
@@ -37,7 +43,19 @@ export const transformWeatherData = apiWeatherData => {
         weatherState,
         wind: speed,
         humidity,
-    }
+    };
 
     return convertedData;
-}
+};
+
+export const transformForecastData = apiForecastData => (
+    apiForecastData.list.filter(item => (
+        moment.unix(item.dt).utc().hour() === 6 ||
+        moment.unix(item.dt).utc().hour() === 12 ||
+        moment.unix(item.dt).utc().hour() === 18
+    )).map(item => ({
+        weekDay: moment.unix(item.dt).format('ddd'),
+        hour: moment.unix(item.dt).utc().hour(),
+        data: transformWeatherData(item),
+    }))
+);  
