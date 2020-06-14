@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import axios from 'axios';
 
 //local components
 import Location from './Location';
@@ -25,16 +26,12 @@ class WeatherLocation extends Component {
         this.handleUpdateWeather();
     }
 
-    handleUpdateWeather = () =>{
+    handleUpdateWeather = async () =>{
         const {city} = this.props;
-        fetch(WeatherAPIServices.getUrlWeatherByCity(city)).then(resolve => {
-            return resolve.json();
-        }).then(data => {
-            this.setState({
-                city,
-                data: WeatherAPIServices.transformWeatherData(data),
-            });
-        });
+
+        const response = await axios.get(WeatherAPIServices.getUrlWeatherByCity(city));
+        const data = WeatherAPIServices.transformWeatherData(response.data);
+        this.setState({city, data});
     }
     
     render(){
