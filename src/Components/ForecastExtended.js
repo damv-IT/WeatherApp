@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import {SUNNY} from '../Constants/WeatherStates';
 import ForecastItem from './ForecastItem';
 
 import {transformForecastData, getUrlForecastByCity} from '../Services/WeatherAPIServices';
