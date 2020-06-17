@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
-import {Grid, Col, Row} from 'react-flexbox-grid';
+import { Grid, Col, Row } from 'react-flexbox-grid';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import LocationList from './Components/WeatherLocation/LocationList';
-import ForecastExtended from './Components/ForecastExtended';
+import LocationListContainer from './Containers/LocationListContainer';
+import ForecastExtendedContainer from './Containers/ForecastExtendedContainer';
 
 const cities = [
   'Zapopan,mx',
@@ -18,68 +18,31 @@ const cities = [
   'Mexico,mx',
 ];
 
-class App extends Component {
-
-  constructor(){
-    super();
-    this.state = {
-      city: null
-    }
-  }
-
-  handleLocationSelect = city => {
-    console.log(`Evento handleLocationSelect desde App, ciudad: ${city}`); 
-    this.setState({city});
-  }
-  
-  render() {
-    const { city } = this.state;
-    return (
-      <Grid>
-        <Row>
-          <AppBar position='sticky'>
-            <ToolBar>
-              <Typography variant='title' color='inherit'>
-                Weather App
+const App = () => (
+  <Grid>
+    <Row>
+      <AppBar position='sticky'>
+        <ToolBar>
+          <Typography variant='subtitle1' color='inherit'>
+            Weather App
               </Typography>
-            </ToolBar>
-          </AppBar>
-        </Row>
-        <Row>
-          <Col xs={12} md={6}>
-            <LocationList
-              cities={cities}
-              onSelectedLocation={this.handleLocationSelect}
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <Paper elevation={4}>
-              <div className='details'>
-                {city ?
-                  <ForecastExtended city={city}/> :
-                  <h4>City has not been selected</h4>
-                }
-              </div>
-            </Paper>
-          </Col>
-        </Row>
-      </Grid>
-    );
-  }
-}
-
-/*
-<div className="App">
-        <LocationList 
-          cities={cities}
-          onSelectedLocation={this.handleLocationSelect}/>
-        
-        {city ?
-        <span>{city}</span> :
-        <h4>City has not been selected</h4>
-        }
-      </div>
-
-*/
+        </ToolBar>
+      </AppBar>
+    </Row>
+    <Row>
+      <Col xs={12} md={6}>
+        <LocationListContainer
+          cities={cities} />
+      </Col>
+      <Col xs={12} md={6}>
+        <Paper elevation={4}>
+          <div className='details'>
+            <ForecastExtendedContainer />
+          </div>
+        </Paper>
+      </Col>
+    </Row>
+  </Grid>
+);
 
 export default App;
